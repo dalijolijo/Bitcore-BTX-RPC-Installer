@@ -17,12 +17,14 @@ printf "\nSetup Config file"
 printf "\n-----------------\n"
 if [ -f "$CONFIG" ]
 then
-        printf "Found $CONFIG on your system. Do you want to re-use this existing config file? Enter Yes or No and Hit [ENTER]: "
+        printf "Found $CONFIG on your system.\n"
+        printf "\nDo you want to re-use this existing config file?\n" 
+        printf "Enter Yes or No and Hit [ENTER]: "
         read REUSE
 fi
 
 if [[ $REUSE =~ "N" ]] || [[ $REUSE =~ "n" ]]; then
-        printf "Enter new password for [bitcore] user and Hit [ENTER]: "
+        printf "\nEnter new password for [bitcore] user and Hit [ENTER]: "
         read BTXPWD
 else
         source $CONFIG
