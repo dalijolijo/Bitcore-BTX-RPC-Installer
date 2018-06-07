@@ -34,6 +34,8 @@ fi
 #
 # Check distro version for further configurations
 #
+printf "\nDocker Host Operating System"
+printf "\n----------------------------\n"
 if [ -f /etc/os-release ]; then
     # freedesktop.org and systemd
     . /etc/os-release
@@ -63,7 +65,7 @@ else
     OS=$(uname -s)
     VER=$(uname -r)
 fi
-printf "\nFound installed $OS ($VER)\n"
+printf "Found installed $OS ($VER)\n"
 
 #
 # Configuration for Ubuntu/Debian/Mint
