@@ -3,19 +3,28 @@ set -u
 
 DOCKER_REPO="limxtec"
 CONFIG="/home/bitcore/.bitcore/bitcore.conf"
+DEFAULT_PORT="8555"
+RPC_PORT="8556"
+TOR_PORT="9051"
 
 #
 # Check if bitcore.conf already exist. Set bitcore user pwd
 #
+clear
 REUSE="No"
+printf "\nDOCKER SETUP FOR BITCORE (BTX) RPC SERVER\n"
+printf "\nSetup Config file"
+printf "\n-----------------\n"
 if [ -f "$CONFIG" ]
 then
-        echo -n "Found $CONFIG on your system. Do you want to re-use this existing config file? Enter Yes or No and Hit [ENTER]: "
+        printf "Found $CONFIG on your system.\n"
+        printf "\nDo you want to re-use this existing config file?\n" 
+        printf "Enter Yes or No and Hit [ENTER]: "
         read REUSE
 fi
 
 if [[ $REUSE =~ "N" ]] || [[ $REUSE =~ "n" ]]; then
-        echo -n "Enter new password for [bitcore] user and Hit [ENTER]: "
+        printf "\nEnter new password for [bitcore] user and Hit [ENTER]: "
         read BTXPWD
 else
         source $CONFIG
@@ -23,8 +32,10 @@ else
 fi
 
 #
-# Check distro version for further configurations (TODO)
+# Check distro version for further configurations
 #
+printf "\nDocker Host Operating System"
+printf "\n----------------------------\n"
 if [ -f /etc/os-release ]; then
     # freedesktop.org and systemd
     . /etc/os-release
@@ -54,60 +65,73 @@ else
     OS=$(uname -s)
     VER=$(uname -r)
 fi
+printf "Found installed $OS ($VER)\n"
 
+#
 # Configuration for Ubuntu/Debian/Mint
+#
+printf "\nSetup Firewall"
+printf "\n--------------\n"
 if [[ $OS =~ "Ubuntu" ]] || [[ $OS =~ "ubuntu" ]] || [[ $OS =~ "Debian" ]] || [[ $OS =~ "debian" ]] || [[ $OS =~ "Mint" ]] || [[ $OS =~ "mint" ]]; then
-    echo "Configuration for $OS ($VER)..."
-    
+
     #Check if firewall ufw is installed
     which ufw >/dev/null
     if [ $? -ne 0 ];then
-        echo "Missing firewall (ufw) on your system."
-        echo "Automated firewall setup will open the following ports: 22, 8555, 8556, 9051"
-        echo -n "Do you want to install firewall (ufw) and execute automated firewall setup? Enter Yes or No and Hit [ENTER]: "
+        printf "Missing firewall (ufw) on your system.\n"
+        printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
+        printf "\nDo you want to install firewall (ufw) and execute automated firewall setup?\n"
+        printf "Enter Yes or No and Hit [ENTER]: "
         read FIRECONF
     else
-        echo "Found firewall ufw on your system. Automated firewall setup will open the following ports: 22, 8555, 8556, 9051"
-        echo -n "Do you want to start automated firewall setup? Enter Yes or No and Hit [ENTER]: "
+        printf "Found firewall ufw on your system.\n"
+        printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
+        printf "\nDo you want to start automated firewall setup?\n"
+        printf "Enter Yes or No and Hit [ENTER]: "
         read FIRECONF
+    fi
 
-        if [[ $FIRECONF =~ "Y" ]] || [[ $FIRECONF =~ "y" ]]; then
-           #Installation of ufw, if not installed yet
-           which ufw >/dev/null
-           if [ $? -ne 0 ];then
-               apt-get update
-               sudo apt-get install -y ufw
-           fi
-           
-           # Firewall settings
-           echo "Setup firewall..."
-           ufw logging on
-           ufw allow 22/tcp
-           ufw limit 22/tcp
-           ufw allow 8555/tcp
-           ufw allow 8556/tcp
-           ufw allow 9051/tcp
-           # if other services run on other ports, they will be blocked!
-           #ufw default deny incoming
-           ufw default allow outgoing
-           yes | ufw enable
+    if [[ $FIRECONF =~ "Y" ]] || [[ $FIRECONF =~ "y" ]]; then
+        #Installation of ufw, if not installed yet
+        which ufw >/dev/null
+        if [ $? -ne 0 ];then
+           apt-get update
+           sudo apt-get install -y ufw
         fi
+
+        # Firewall settings
+        printf "\nSetup firewall...\n"
+        ufw logging on
+        ufw allow 22/tcp
+        ufw limit 22/tcp
+        ufw allow ${DEFAULT_PORT}/tcp
+        ufw allow ${RPC_PORT}/tcp
+        ufw allow ${TOR_PORT}/tcp
+        # if other services run on other ports, they will be blocked!
+        #ufw default deny incoming
+        ufw default allow outgoing
+        yes | ufw enable
     fi
 
     # Installation further package
-    echo "Install further packages..."
+    printf "\nPackages Setup"
+    printf "\n--------------\n"
+    printf "Install further packages...\n"
     apt-get update
     sudo apt-get install -y apt-transport-https \
                             ca-certificates \
                             curl \
                             software-properties-common
 else
-    echo "Automated firewall setup for $OS ($VER) not supported!"
-    echo "Please open firewall ports 22, 8555, 8556 and 9051 manually."
+    printf "Automated firewall setup for $OS ($VER) not supported!\n"
+    printf "Please open firewall ports 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT} manually.\n"
     exit
 fi
 
+#
 # Pull docker images and run the docker container
+#
+printf "\nStart Docker container"
+printf "\n----------------------\n"
 docker rm btx-rpc-server
 docker pull ${DOCKER_REPO}/btx-rpc-server
-docker run -p 8555:8555 -p 8556:8556 -p 9051:9051 --name btx-rpc-server  -e BTXPWD="${BTXPWD}" -v /home/bitcore:/home/bitcore:rw -d ${DOCKER_REPO}/btx-rpc-server
+docker run -p ${DEFAULT_PORT}:${DEFAULT_PORT} -p ${RPC_PORT}:${RPC_PORT} -p ${TOR_PORT}:${TOR_PORT} --name btx-rpc-server  -e BTXPWD="${BTXPWD}" -v /home/bitcore:/home/bitcore:rw -d ${DOCKER_REPO}/btx-rpc-server
