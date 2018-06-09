@@ -75,7 +75,7 @@ printf "\nSetup Firewall"
 printf "\n--------------\n"
 
 # Configuration for Fedora
-if [[ $OS =~ "Fedora" ]] || [[ $OS =~ "fedora" ]]; then
+if [[ $OS =~ "Fedora" ]] || [[ $OS =~ "fedora" ]] || [[ $OS =~ "CentOS" ]] || [[ $OS =~ "centos" ]]; then
     FIREWALLD=0
 
     # Check if firewalld is installed
@@ -105,11 +105,37 @@ if [[ $OS =~ "Fedora" ]] || [[ $OS =~ "fedora" ]]; then
         # Check if ufw is installed
         which ufw >/dev/null
         if [ $? -ne 0 ]; then
-            printf "Missing firewall (ufw) on your system.\n"
-            printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
-            printf "\nDo you want to install firewall (ufw) and execute automated firewall setup?\n"
-            printf "Enter [Y]es or [N]o and Hit [ENTER]: "
-            read FIRECONF
+            if [[ $OS =~ "CentOS" ]] || [[ $OS =~ "centos" ]]; then
+                printf "Missing firewall (firewalld) on your system.\n"
+                printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
+                printf "\nDo you want to install firewall (firewalld) and execute automated firewall setup?\n"
+                printf "Enter [Y]es or [N]o and Hit [ENTER]: "
+                read FIRECONF
+                
+                if [[ $FIRECONF =~ "Y" ]] || [[ $FIRECONF =~ "y" ]]; then
+                    #Installation of ufw, if not installed yet
+                    which ufw >/dev/null
+                    if [ $? -ne 0 ];then
+                        sudo yum install -y firewalld firewall-config
+                        systemctl start firewalld.service
+                        systemctl enable firewalld.service
+                    fi
+
+                    # Firewall settings
+                    printf "\nSetup firewall...\n"
+                    firewall-cmd --permanent --zone=public --add-port=22/tcp
+                    firewall-cmd --permanent --zone=public --add-port=${DEFAULT_PORT}/tcp
+                    firewall-cmd --permanent --zone=public --add-port=${RPC_PORT}/tcp
+                    firewall-cmd --permanent --zone=public --add-port=${TOR_PORT}/tcp
+                    firewall-cmd --reload
+                fi
+            else
+                printf "Missing firewall (ufw) on your system.\n"
+                printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
+                printf "\nDo you want to install firewall (ufw) and execute automated firewall setup?\n"
+                printf "Enter [Y]es or [N]o and Hit [ENTER]: "
+                read FIRECONF
+            fi
         else
             printf "Found firewall 'ufw' on your system.\n"
             printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
