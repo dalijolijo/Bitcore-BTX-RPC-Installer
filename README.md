@@ -33,7 +33,7 @@ Support for the following distribution versions:
 * Fedora 7 (x86_64-centos-7)
 * Fedora 26 (x86_64-fedora-26)
 * Fedora 27 (x86_64-fedora-27) - tested
-* Fedora 28 (x86_64-fedora-28)
+* Fedora 28 (x86_64-fedora-28) - tested
 * Debian 7 (x86_64-debian-wheezy)
 * Debian 8 (x86_64-debian-jessie) - tested
 * Debian 9 (x86_64-debian-stretch) - tested
