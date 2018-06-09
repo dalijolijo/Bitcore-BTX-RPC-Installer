@@ -32,7 +32,7 @@ After install you can use `su bitcore` to switch the user and with `bitcore-cli 
 Support for the following distribution versions:
 * Fedora 7 (x86_64-centos-7)
 * Fedora 26 (x86_64-fedora-26)
-* Fedora 27 (x86_64-fedora-27)
+* Fedora 27 (x86_64-fedora-27) - tested
 * Fedora 28 (x86_64-fedora-28)
 * Debian 7 (x86_64-debian-wheezy)
 * Debian 8 (x86_64-debian-jessie) - tested
