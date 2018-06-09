@@ -36,7 +36,7 @@ Support for the following distribution versions:
 * Fedora 28 (x86_64-fedora-28)
 * Debian 7 (x86_64-debian-wheezy)
 * Debian 8 (x86_64-debian-jessie) - tested
-* Debian 9 (x86_64-debian-stretch)
+* Debian 9 (x86_64-debian-stretch) - tested
 * Debian 10 (x86_64-debian-buster)
 * Ubuntu 14.04 LTS (x86_64-ubuntu-trusty) - tested
 * Ubuntu 16.04 LTS (x86_64-ubuntu-xenial) - tested
