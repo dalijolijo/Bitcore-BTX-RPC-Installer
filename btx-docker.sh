@@ -1,7 +1,7 @@
 #!/bin/bash
 set -u
 
-DOCKER_REPO="dalijolijo"
+DOCKER_REPO="limxtec"
 CONFIG="/home/bitcore/.bitcore/bitcore.conf"
 CONTAINER_NAME="btx-rpc-server"
 DEFAULT_PORT="8555"

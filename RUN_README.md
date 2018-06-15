@@ -16,7 +16,7 @@ yes | ufw enable
 
 ## Pull docker image
 ```
-docker pull <repository>/btx-rpc-server
+docker pull limxtec/btx-rpc-server
 ```
 
 ## Run docker container
