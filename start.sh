@@ -1,8 +1,6 @@
 #!/bin/bash
 set -u
 
-BOOTSTRAP='bootstrap.tar.gz'
-
 #
 # Set passwd of bitcore user
 #
@@ -30,8 +28,8 @@ sed -i "s/^\(rpcpassword=\).*/rpcpassword=${BTXPWD}/" /home/bitcore/.bitcore/bit
 #
 printf "** Downloading bootstrap file ***\n"
 cd /home/bitcore/.bitcore/
-if [ ! -d /home/bitcore/.bitcore/blocks ] && [ "$(curl -Is https://bitcore.cc/${BOOTSTRAP} | head -n 1 | tr -d '\r\n')" = "HTTP/1.1 200 OK" ] ; then \
-        sudo -u bitcore wget https://bitcore.cc/${BOOTSTRAP}; \
+if [ ! -d /home/bitcore/.bitcore/blocks ] && [ "$(curl -Is https://${WEB}/${BOOTSTRAP} | head -n 1 | tr -d '\r\n')" = "HTTP/1.1 200 OK" ] ; then \
+        sudo -u bitcore wget https://${WEB}/${BOOTSTRAP}; \
         sudo -u bitcore tar -xvzf ${BOOTSTRAP}; \
         sudo -u bitcore rm ${BOOTSTRAP}; \
 fi
