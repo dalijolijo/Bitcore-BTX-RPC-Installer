@@ -11,11 +11,19 @@ WEB="bitcore.cc" # without "https://" and without the last "/" (only HTTPS accep
 BOOTSTRAP="bootstrap.tar.gz"
 
 #
+# Color definitions
+#
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NO_COL='\033[0m'
+BTX_COL='\033[1;35m'
+
+#
 # Check if bitcore.conf already exist. Set bitcore user pwd
 #
 clear
 REUSE="No"
-printf "\nDOCKER SETUP FOR BITCORE (BTX) RPC SERVER\n"
+printf "\n${BTX_COL}DOCKER SETUP FOR  BITCORE (BTX) RPC SERVER${NO_COL}\n"
 printf "\nSetup Config file"
 printf "\n-----------------"
 if [ -f "$CONFIG" ]
@@ -26,12 +34,8 @@ then
         read REUSE
 fi
 
-if [[ $REUSE =~ "N" ]] || [[ $REUSE =~ "n" ]]; then
-        printf "\nEnter new password for [bitcore] user and Hit [ENTER]: "
-        read BTXPWD
-else
+if [[ $REUSE =~ "Y" ]] || [[ $REUSE =~ "y" ]]; then
         source $CONFIG
-        BTXPWD=$(echo $rpcpassword)
 fi
 
 #
@@ -108,7 +112,7 @@ if [[ $OS =~ "Fedora" ]] || [[ $OS =~ "fedora" ]] || [[ $OS =~ "CentOS" ]] || [[
         which ufw >/dev/null
         if [ $? -ne 0 ]; then
             if [[ $OS =~ "CentOS" ]] || [[ $OS =~ "centos" ]]; then
-                printf "Missing firewall (firewalld) on your system.\n"
+                printf "${RED}Missing firewall (firewalld) on your system.${NO_COL}\n"
                 printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
                 printf "\nDo you want to install firewall (firewalld) and execute automated firewall setup?\n"
                 printf "Enter [Y]es or [N]o and Hit [ENTER]: "
@@ -132,7 +136,7 @@ if [[ $OS =~ "Fedora" ]] || [[ $OS =~ "fedora" ]] || [[ $OS =~ "CentOS" ]] || [[
                     firewall-cmd --reload
                 fi
             else
-                printf "Missing firewall (ufw) on your system.\n"
+                printf "${RED}Missing firewall (ufw) on your system.${NO_COL}\n"
                 printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
                 printf "\nDo you want to install firewall (ufw) and execute automated firewall setup?\n"
                 printf "Enter [Y]es or [N]o and Hit [ENTER]: "
@@ -257,7 +261,7 @@ if [ $? -eq 0 ];then
 fi
 docker rm ${CONTAINER_NAME} >/dev/null
 docker pull ${DOCKER_REPO}/btx-rpc-server
-docker run -p ${DEFAULT_PORT}:${DEFAULT_PORT} -p ${RPC_PORT}:${RPC_PORT} -p ${TOR_PORT}:${TOR_PORT} --name ${CONTAINER_NAME}  -e BTXPWD="${BTXPWD}" -e WEB="${WEB}" -e BOOTSTRAP="${BOOTSTRAP}" -v /home/bitcore:/home/bitcore:rw -d ${DOCKER_REPO}/btx-rpc-server
+docker run -p ${DEFAULT_PORT}:${DEFAULT_PORT} -p ${RPC_PORT}:${RPC_PORT} -p ${TOR_PORT}:${TOR_PORT} --name ${CONTAINER_NAME} -e WEB="${WEB}" -e BOOTSTRAP="${BOOTSTRAP}" -v /home/bitcore:/home/bitcore:rw -d ${DOCKER_REPO}/btx-rpc-server
 
 #
 # Show result and give user instructions
@@ -267,9 +271,9 @@ printf "\nDocker Setup Result"
 printf "\n----------------------\n"
 sudo docker ps | grep ${CONTAINER_NAME} >/dev/null
 if [ $? -ne 0 ];then
-    printf "Sorry! Something went wrong. :(\n"
+    printf "${RED}Sorry! Something went wrong. :(${NO_COL}\n"
 else
-    printf "GREAT! Your BitCore RPC Server Docker Container is running now! :)\n"
+    printf "GREAT! Your ${BTX_COL}BitCore (BTX} RPC Server Docker Container${NO_COL} is running now! :)\n"
     printf "\nShow your running docker container \'${CONTAINER_NAME}\' with 'docker ps'\n"
     sudo docker ps | grep ${CONTAINER_NAME}
     printf "\nJump inside the docker container with 'docker exec -it ${CONTAINER_NAME} bash'\n"
