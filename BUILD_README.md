@@ -26,7 +26,7 @@ swapon /swapfile
 
 ## Build docker image
 ```
-docker build [--build-arg BTXPWD='<bitcore user pwd>'] -t btx-rpc-server .
+docker build -t btx-rpc-server .
 ```
 
 ## Push docker image to hub.docker
