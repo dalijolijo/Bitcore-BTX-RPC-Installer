@@ -256,7 +256,7 @@ if [ $? -eq 0 ];then
     else
 	printf "\nDocker Setup Result"
         printf "\n----------------------\n"
-        printf "${RED}Canceled the Docker Setup without starting BitCore RPC Server Docker Container.${NO_COL}\n\n"
+        printf "${RED}Canceled the Docker Setup without starting ${BTX_COL}BitCore${RED} RPC Server Docker Container.${NO_COL}\n\n"
 	exit 1
     fi
 fi
