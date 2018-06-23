@@ -23,7 +23,7 @@ BTX_COL='\033[1;35m'
 #
 clear
 REUSE="No"
-printf "\n${BTX_COL}DOCKER SETUP FOR  BITCORE (BTX) RPC SERVER${NO_COL}\n"
+printf "\nDOCKER SETUP FOR ${BTX_COL}BITCORE (BTX)${NO_COL} RPC SERVER\n"
 
 if [ -f "$CONFIG" ]
 then
@@ -190,7 +190,7 @@ elif [[ $OS =~ "Ubuntu" ]] || [[ $OS =~ "ubuntu" ]] || [[ $OS =~ "Debian" ]] || 
     # Check if firewall ufw is installed
     which ufw >/dev/null
     if [ $? -ne 0 ];then
-        printf "Missing firewall (ufw) on your system.\n"
+        printf "${RED}Missing firewall (ufw) on your system.${NO_COL}\n"
         printf "Automated firewall setup will open the following ports: 22, ${DEFAULT_PORT}, ${RPC_PORT} and ${TOR_PORT}\n"
         printf "\nDo you want to install firewall (ufw) and execute automated firewall setup?\n"
         printf "Enter [Y]es or [N]o and Hit [ENTER]: "
@@ -246,7 +246,7 @@ printf "\nStart Docker container"
 printf "\n----------------------\n"
 sudo docker ps | grep ${CONTAINER_NAME} >/dev/null
 if [ $? -eq 0 ];then
-    printf "Conflict! The container name \'${CONTAINER_NAME}\' is already in use.\n"
+    printf "${RED}Conflict! The container name \'${CONTAINER_NAME}\' is already in use.${NO_COL}\n"
     printf "\nDo you want to stop the running container to start the new one?\n"
     printf "Enter [Y]es or [N]o and Hit [ENTER]: "
     read STOP
@@ -256,7 +256,7 @@ if [ $? -eq 0 ];then
     else
 	printf "\nDocker Setup Result"
         printf "\n----------------------\n"
-        printf "Canceled the Docker Setup without starting BitCore RPC Server Docker Container.\n\n"
+        printf "${RED}Canceled the Docker Setup without starting BitCore RPC Server Docker Container.${NO_COL}\n\n"
 	exit 1
     fi
 fi
@@ -274,9 +274,9 @@ sudo docker ps | grep ${CONTAINER_NAME} >/dev/null
 if [ $? -ne 0 ];then
     printf "${RED}Sorry! Something went wrong. :(${NO_COL}\n"
 else
-    printf "GREAT! Your ${BTX_COL}BitCore (BTX} RPC Server Docker Container${NO_COL} is running now! :)\n"
+    printf "${GREEN}GREAT! Your ${BTX_COL}BitCore (BTX}${GREEN} RPC Server Docker Container is running now! :)${NO_COL}\n"
     printf "\nShow your running docker container \'${CONTAINER_NAME}\' with 'docker ps'\n"
     sudo docker ps | grep ${CONTAINER_NAME}
     printf "\nJump inside the docker container with 'docker exec -it ${CONTAINER_NAME} bash'\n"
-    printf "HAVE FUN!\n\n"
+    printf "${GREEN}HAVE FUN!${NO_COL}\n\n"
 fi
