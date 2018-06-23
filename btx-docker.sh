@@ -19,7 +19,7 @@ NO_COL='\033[0m'
 BTX_COL='\033[1;35m'
 
 #
-# Check if bitcore.conf already exist. Set bitcore user pwd
+# Check if bitcore.conf already exist.
 #
 clear
 REUSE="No"
