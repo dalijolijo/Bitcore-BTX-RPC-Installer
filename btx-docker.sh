@@ -24,11 +24,12 @@ BTX_COL='\033[1;35m'
 clear
 REUSE="No"
 printf "\n${BTX_COL}DOCKER SETUP FOR  BITCORE (BTX) RPC SERVER${NO_COL}\n"
-printf "\nSetup Config file"
-printf "\n-----------------"
+
 if [ -f "$CONFIG" ]
 then
-        printf "\nFound $CONFIG on your system.\n"
+        printf "\nSetup Config file"
+        printf "\n-----------------"
+	printf "\nFound $CONFIG on your system.\n"
         printf "\nDo you want to re-use this existing config file?\n" 
         printf "Enter [Y]es or [N]o and Hit [ENTER]: "
         read REUSE
