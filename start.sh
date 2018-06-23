@@ -2,11 +2,6 @@
 set -u
 
 #
-# Set passwd of bitcore user
-#
-echo bitcore:${BTXPWD} | chpasswd
-
-#
 # Downloading bitcore.conf
 #
 cd /tmp/
