@@ -15,8 +15,8 @@ printf "** Configure bitcore.conf ***\n"
 mkdir -p /home/bitcore/.bitcore	
 chown -R bitcore:bitcore /home/bitcore/
 sudo -u bitcore cp /tmp/bitcore.conf /home/bitcore/.bitcore/bitcore.conf
-sed -i "s|^\(rpcuser=\).*|rpcuser=btxrpcnode$(openssl rand -base64 32)|g" /home/bitcore/.bitcore/bitcore.conf
-sed -i "s|^\(rpcpassword=\).*|rpcpassword=$(openssl rand -base64 32)|g" /home/bitcore/.bitcore/bitcore.conf
+sed -i "s#^\(rpcuser=\).*#rpcuser=btxrpcnode$(openssl rand -base64 32 | tr -d '[:punct:]')#g" /home/bitcore/.bitcore/bitcore.conf
+sed -i "s#^\(rpcpassword=\).*#rpcpassword=$(openssl rand -base64 32 | tr -d '[:punct:]')#g" /home/bitcore/.bitcore/bitcore.conf
 
 #
 # Downloading bootstrap file
