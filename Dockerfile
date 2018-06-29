@@ -17,7 +17,8 @@ LABEL version="0.2"
 # DefaultPort = 8555
 # RPCPort = 8556
 # TorPort = 9051
-EXPOSE 8555 8556 9051
+# DEPRECATED: Use 'docker run -p 8555:8555 -p 8556:8556 -p 9051:9051 ...'
+#EXPOSE 8555 8556 9051
 
 USER root
 
