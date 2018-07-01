@@ -2,7 +2,7 @@
 set -u
 
 DOCKER_REPO="limxtec"
-CONFIG="/home/bitcore/.bitcore/bitcore.conf"
+CONFIG_PATH="/home/bitcore/.bitcore"
 CONTAINER_NAME="btx-rpc-server"
 DEFAULT_PORT="8555"
 RPC_PORT="8556"
@@ -25,6 +25,7 @@ clear
 REUSE="No"
 printf "\nDOCKER SETUP FOR ${BTX_COL}BITCORE (BTX)${NO_COL} RPC SERVER\n"
 
+CONFIG=${CONFIG_PATH}/bitcore.conf
 if [ -f "$CONFIG" ]
 then
         printf "\nSetup Config file"
@@ -37,6 +38,7 @@ fi
 
 if [[ $REUSE =~ "Y" ]] || [[ $REUSE =~ "y" ]]; then
         source $CONFIG
+        cp ${CONFIG_PATH}/bitcore.conf ${CONFIG_PATH}/.bitcore.conf
 fi
 
 #
@@ -262,7 +264,9 @@ if [ $? -eq 0 ];then
 fi
 docker rm ${CONTAINER_NAME} >/dev/null
 docker pull ${DOCKER_REPO}/btx-rpc-server
-docker run -p ${DEFAULT_PORT}:${DEFAULT_PORT} -p ${RPC_PORT}:${RPC_PORT} -p ${TOR_PORT}:${TOR_PORT} --name ${CONTAINER_NAME} -e WEB="${WEB}" -e BOOTSTRAP="${BOOTSTRAP}" -v /home/bitcore:/home/bitcore:rw -d ${DOCKER_REPO}/btx-rpc-server
+docker run -p ${DEFAULT_PORT}:${DEFAULT_PORT} -p ${RPC_PORT}:${RPC_PORT} -p ${TOR_PORT}:${TOR_PORT} --name ${CONTAINER_NAME} -e WEB="${WEB}" -e BOOTSTRAP="${BOOTSTRAP}" -e CONFIG_PATH=${CONFIG_PATH} -v /home/bitcore:/home/bitcore:rw -d ${DOCKER_REPO}/btx-rpc-server
+sleep 5
+
 
 #
 # Show result and give user instructions
