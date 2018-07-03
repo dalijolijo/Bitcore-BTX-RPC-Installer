@@ -1,6 +1,9 @@
 #!/bin/bash
 set -u
 
+CONFIG=${CONFIG_PATH}/bitcore.conf
+CONFIG_REUSE=${CONFIG_PATH}/.bitcore.conf
+
 #
 # Downloading bitcore.conf
 #
@@ -12,18 +15,23 @@ chown bitcore:bitcore /tmp/bitcore.conf
 # Configure bitcore.conf
 #
 printf "** Configure bitcore.conf ***\n"
-mkdir -p /home/bitcore/.bitcore	
+mkdir -p ${CONFIG_PATH}	
 chown -R bitcore:bitcore /home/bitcore/
-sudo -u bitcore cp /tmp/bitcore.conf /home/bitcore/.bitcore/bitcore.conf
-sed -i "s#^\(rpcuser=\).*#rpcuser=btxrpcnode$(openssl rand -base64 32 | tr -d '[:punct:]')#g" /home/bitcore/.bitcore/bitcore.conf
-sed -i "s#^\(rpcpassword=\).*#rpcpassword=$(openssl rand -base64 32 | tr -d '[:punct:]')#g" /home/bitcore/.bitcore/bitcore.conf
+
+if [ -f ${CONFIG_REUSE} ] ; then
+	sudo -u bitcore mv ${CONFIG_REUSE} ${CONFIG}
+else
+	sudo -u bitcore cp /tmp/bitcore.conf ${CONFIG}
+	sed -i "s#^\(rpcuser=\).*#rpcuser=btxrpcnode$(openssl rand -base64 32 | tr -d '[:punct:]')#g" ${CONFIG}
+	sed -i "s#^\(rpcpassword=\).*#rpcpassword=$(openssl rand -base64 32 | tr -d '[:punct:]')#g" ${CONFIG}
+fi
 
 #
 # Downloading bootstrap file
 #
 printf "** Downloading bootstrap file ***\n"
-cd /home/bitcore/.bitcore/
-if [ ! -d /home/bitcore/.bitcore/blocks ] && [ "$(curl -Is https://${WEB}/${BOOTSTRAP} | head -n 1 | tr -d '\r\n')" = "HTTP/1.1 200 OK" ] ; then \
+cd ${CONFIG_PATH}
+if [ ! -d ${CONFIG_PATH}/blocks ] && [ "$(curl -Is https://${WEB}/${BOOTSTRAP} | head -n 1 | tr -d '\r\n')" = "HTTP/1.1 200 OK" ] ; then \
         sudo -u bitcore wget https://${WEB}/${BOOTSTRAP}; \
         sudo -u bitcore tar -xvzf ${BOOTSTRAP}; \
         sudo -u bitcore rm ${BOOTSTRAP}; \
