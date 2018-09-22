@@ -1,4 +1,6 @@
 # Bitcore-BTX-RPC-Installer
+[![docker pulls](https://img.shields.io/docker/pulls/dalijolijo/btx-rpc-server.svg?style=flat)](https://hub.docker.com/r/dalijolijo/btx-rpc-server/)
+
 ## OPTION 1: Installation with script 
 This script will install all required stuff to run a BitCore RPC Server.
 
@@ -55,9 +57,7 @@ sudo curl -sSL https://get.docker.com | sh
 Login as root, then do:
 
 ```
-wget https://raw.githubusercontent.com/LIMXTEC/Bitcore-BTX-RPC-Installer/master/btx-docker.sh
-chmod +x btx-docker.sh
-./btx-docker.sh
+sudo bash -c "$(curl -fsSL https://github.com/dalijolijo/Bitcore-BTX-RPC-Installer/raw/master/btx-docker.sh)"
 ```
 
 ### For more details to docker related stuff have a look at:
