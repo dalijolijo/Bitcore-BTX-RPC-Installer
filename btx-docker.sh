@@ -1,9 +1,9 @@
 #!/bin/bash
 set -u
 
-GIT_REPO="dalijolijo"
+GIT_REPO="limxtec"
 GIT_PROJECT="Bitcore-BTX-RPC-Installer"
-DOCKER_REPO="dalijolijo"
+DOCKER_REPO="limxtec"
 IMAGE_NAME="btx-rpc-server"
 IMAGE_TAG="0.15.2.0.0" #BTX Version 0.15.2.0.0
 CONFIG_PATH="/home/bitcore/.bitcore"
