@@ -11,7 +11,14 @@
 FROM ubuntu:16.04
 
 LABEL maintainer="Jon D. (dArkjON), David B. (dalijolijo)"
-LABEL version="0.15.2.0.0"
+
+ARG VERSION=0.15.2.0.0
+ENV VERSION=${VERSION}
+RUN echo $VERSION
+
+ARG RELEASE_TAR=linux.Ubuntu.16.04.LTS-static-libstdc.tar.gz
+ENV RELEASE_TAR=${RELEASE_TAR}
+RUN echo $RELEASE_TAR
 
 # Make ports available to the world outside this container
 # DefaultPort = 8555
@@ -96,7 +103,7 @@ RUN echo '*** Running updates and installing required packages ***' && \
 RUN echo '*** Download BitCore release ***' && \
     mkdir -p /root/src && \
     cd /root/src && \
-    wget https://github.com/LIMXTEC/BitCore/releases/download/0.15.2.0.0/linux.Ubuntu.16.04.LTS-static-libstdc.tar.gz && \
+    wget https://github.com/LIMXTEC/BitCore/releases/download/${VERSION}/${RELEASE_TAR} && \
     tar xzf *.tar.gz && \
     chmod 775 bitcore* && \
     cp bitcore* /usr/local/bin && \

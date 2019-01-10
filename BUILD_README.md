@@ -26,7 +26,7 @@ swapon /swapfile
 
 ## Build docker image
 ```
-docker build -t btx-rpc-server .
+docker build -t btx-rpc-server --build-arg VERSION=0.15.2.0.0 --build-arg RELEASE_TAR=linux.Ubuntu.16.04.LTS-static-libstdc.tar.gz .
 ```
 
 ## Push docker image to hub.docker
