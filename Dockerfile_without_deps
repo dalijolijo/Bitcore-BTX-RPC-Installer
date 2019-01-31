@@ -75,14 +75,16 @@ RUN echo '*** Cloning and Compiling BitCore Wallet ***' && \
     echo "Execute a git clone of LIMXTEC/BitCore. Please wait..." && \
     git clone https://github.com/LIMXTEC/BitCore.git && \
     cd BitCore && \
-    wget http://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.tar.gz && \
-    tar xzf boost_1_64_0.tar.gz && \
-    cd boost_1_64_0 && \
-    ./bootstrap.sh --without-icu --with-libraries=chrono,filesystem,program_options,system,thread,test && \
-    ./b2 --build-dir=/usr/lib --link=static toolset=gcc release && \
-    cd .. && \
+    mkdir ./src/boost && \
+    wget http://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz && \
+    tar xzf boost_1_58_0.tar.gz && \
+    cd boost_1_58_0 && \
+    ./bootstrap.sh --without-icu --prefix=../src/boost --with-libraries=chrono,filesystem,program_options,system,thread,test && \
+    ./b2 --prefix=../src/boost link=static runtime-link=static threading=multi toolset=gcc release install
+    
+RUN cd .. && \
     ./autogen.sh && \
-    ./configure --disable-dependency-tracking --enable-tests=no --without-gui --disable-hardening --disable-reduce-exports --with-boost-system --with-boost-thread --with-boost-chrono --with-boost-program_options && \
+    ./configure --with-db4 --enable-tests=no --disable-hardening --disable-reduce-exports --enable-shared=no LDFLAGS=-L./src/boost/lib-static && \ 
     make && \
     cd && \
     cd BitCore/src && \
@@ -93,6 +95,7 @@ RUN echo '*** Cloning and Compiling BitCore Wallet ***' && \
     chmod 775 /usr/local/bin/bitcore* && \
     cd 
 #    rm -rf BitCore
+#./configure --disable-dependency-tracking LDFLAGS=-static-libstdc++ 
 
 #
 # Configure bitcore.conf
