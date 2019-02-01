@@ -66,7 +66,6 @@ RUN apt-get install -y libboost-program-options-dev
 RUN apt-get install -y libqrencode-dev
 RUN apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
 
-
 #
 # Cloning and Compiling BitCore Wallet
 #
@@ -81,10 +80,11 @@ RUN echo '*** Cloning and Compiling BitCore Wallet ***' && \
     cd boost_1_58_0 && \
     ./bootstrap.sh --without-icu --prefix=../src/boost --with-libraries=chrono,filesystem,program_options,system,thread,test && \
     ./b2 --prefix=../src/boost link=static runtime-link=static threading=multi toolset=gcc release install
-    
-RUN cd .. && \
+
+RUN cd && \
+    cd BitCore && \
     ./autogen.sh && \
-    ./configure --with-db4 --enable-tests=no --disable-hardening --disable-reduce-exports --enable-shared=no LDFLAGS=-L./src/boost/lib-static && \ 
+    ./configure --enable-tests=no --disable-hardening --disable-reduce-exports --enable-shared=no LDFLAGS=-L/root/BitCore/src/boost/lib LDFLAGS=-static-libstdc++ && \
     make && \
     cd && \
     cd BitCore/src && \
@@ -93,9 +93,8 @@ RUN cd .. && \
     strip bitcore-cli && \
     cp bitcore-cli /usr/local/bin && \
     chmod 775 /usr/local/bin/bitcore* && \
-    cd 
+    cd
 #    rm -rf BitCore
-#./configure --disable-dependency-tracking LDFLAGS=-static-libstdc++ 
 
 #
 # Configure bitcore.conf
