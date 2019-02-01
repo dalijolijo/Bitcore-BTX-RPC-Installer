@@ -84,7 +84,7 @@ RUN echo '*** Cloning and Compiling BitCore Wallet ***' && \
 RUN cd && \
     cd BitCore && \
     ./autogen.sh && \
-    ./configure --enable-tests=no --disable-hardening --disable-reduce-exports --enable-shared=no LDFLAGS=-L/root/BitCore/src/boost/lib LDFLAGS=-static-libstdc++ && \
+    ./configure --enable-static --enable-tests=no --disable-hardening --disable-reduce-exports LDFLAGS="-L/root/BitCore/src/boost/lib/ -L/usr/lib/x86_64-linux-gnu/ -static-libgcc -static-libstdc++ -static /usr/lib/libdb_cxx-4.8.a -static /usr/lib/x86_64-linux-gnu/libminiupnpc.a -static /usr/lib/x86_64-linux-gnu/libevent_pthreads.a -static /usr/lib/x86_64-linux-gnu/libzmq.a -static /usr/lib/x86_64-linux-gnu/libevent_core.a" && \
     make && \
     cd && \
     cd BitCore/src && \
