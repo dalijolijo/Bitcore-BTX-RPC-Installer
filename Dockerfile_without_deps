@@ -81,10 +81,23 @@ RUN echo '*** Cloning and Compiling BitCore Wallet ***' && \
     ./bootstrap.sh --without-icu --prefix=../src/boost --with-libraries=chrono,filesystem,program_options,system,thread,test && \
     ./b2 --prefix=../src/boost link=static runtime-link=static threading=multi toolset=gcc release install
 
+#RUN cd && \
+#    cd BitCore/src/univalue && \
+#    ./configure --enable-static=yes --enable-shared=no LDFLAGS="-static-libgcc -static-libstdc++ -static -lunivalue" && \
+#    make && \
+#    make install
+
+#RUN cd && \
+#    cd BitCore/src/secp256k1 && \
+#    ./configure --enable-static=yes --enable-shared=no LDFLAGS="-static-libgcc -static-libstdc++ -static -lsecp256k1" CXXFLAGS="-g -O2 -Wall -Wextra -Wno-unused-function -fPIC" && \
+#    make && \
+#    make install
+
+#-L/usr/local/lib/ -static -lbitcoreconsensus -static -lsecp256k1 -static -lunivalue
 RUN cd && \
     cd BitCore && \
     ./autogen.sh && \
-    ./configure --enable-static --enable-tests=no --disable-hardening --disable-reduce-exports LDFLAGS="-L/root/BitCore/src/boost/lib/ -L/usr/lib/x86_64-linux-gnu/ -static-libgcc -static-libstdc++ -static /usr/lib/libdb_cxx-4.8.a -static /usr/lib/x86_64-linux-gnu/libminiupnpc.a -static /usr/lib/x86_64-linux-gnu/libevent_pthreads.a -static /usr/lib/x86_64-linux-gnu/libzmq.a -static /usr/lib/x86_64-linux-gnu/libevent_core.a" && \
+    ./configure --enable-static --enable-tests=no --disable-reduce-exports LDFLAGS="-L/root/BitCore/src/boost/lib/ -L/usr/lib/x86_64-linux-gnu/ -static-libgcc -static-libstdc++ -static /usr/lib/libdb_cxx-4.8.a -static /usr/lib/x86_64-linux-gnu/libminiupnpc.a -static /usr/lib/x86_64-linux-gnu/libevent_pthreads.a -static /usr/lib/x86_64-linux-gnu/libzmq.a -static /usr/lib/x86_64-linux-gnu/libevent_core.a" && \
     make && \
     cd && \
     cd BitCore/src && \
@@ -95,6 +108,7 @@ RUN cd && \
     chmod 775 /usr/local/bin/bitcore* && \
     cd
 #    rm -rf BitCore
+
 
 #
 # Configure bitcore.conf
