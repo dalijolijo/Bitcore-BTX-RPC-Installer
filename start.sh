@@ -7,9 +7,9 @@ CONFIG_REUSE=${CONFIG_PATH}/.bitcore.conf
 #
 # Downloading bitcore.conf
 #
-cd /tmp/
-wget https://raw.githubusercontent.com/LIMXTEC/Bitcore-BTX-RPC-Installer/master/bitcore.conf -O /tmp/bitcore.conf
-chown bitcore:bitcore /tmp/bitcore.conf
+#cd /tmp/
+#wget https://raw.githubusercontent.com/LIMXTEC/Bitcore-BTX-RPC-Installer/master/bitcore.conf -O /tmp/bitcore.conf
+#chown bitcore:bitcore /tmp/bitcore.conf
 
 #
 # Configure bitcore.conf
@@ -22,8 +22,8 @@ if [ -f ${CONFIG_REUSE} ] ; then
 	sudo -u bitcore mv ${CONFIG_REUSE} ${CONFIG}
 else
 	sudo -u bitcore cp /tmp/bitcore.conf ${CONFIG}
-	sed -i "s#^\(rpcuser=\).*#rpcuser=btxrpcnode$(openssl rand -base64 32 | tr -d '[:punct:]')#g" ${CONFIG}
-	sed -i "s#^\(rpcpassword=\).*#rpcpassword=$(openssl rand -base64 32 | tr -d '[:punct:]')#g" ${CONFIG}
+	#sed -i "s#^\(rpcuser=\).*#rpcuser=btxrpcnode$(openssl rand -base64 32 | tr -d '[:punct:]')#g" ${CONFIG}
+	#sed -i "s#^\(rpcpassword=\).*#rpcpassword=$(openssl rand -base64 32 | tr -d '[:punct:]')#g" ${CONFIG}
 	RPC_ALLOWIP=$(ip addr | grep 'global eth0' | xargs | cut -f2 -d ' ')
 	sed -i "s#^\(rpcallowip=\).*#rpcallowip=${RPC_ALLOWIP}#g" ${CONFIG}
 fi

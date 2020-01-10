@@ -4,13 +4,13 @@ set -u
 GIT_REPO="dalijolijo"
 GIT_PROJECT="Bitcore-BTX-RPC-Installer"
 DOCKER_REPO="dalijolijo"
-IMAGE_NAME="btx-rpc-server"
+IMAGE_NAME="btx-blockbook"
 IMAGE_TAG="0.15.2.0.0" #BTX Version 0.15.2.0.0
 CONFIG_PATH="/home/bitcore/.bitcore"
 CONFIG=${CONFIG_PATH}/bitcore.conf
-CONTAINER_NAME="btx-rpc-server"
+CONTAINER_NAME="btx-blockbook"
 DEFAULT_PORT="8555"
-RPC_PORT="8556"
+RPC_PORT="8054"
 TOR_PORT="9051"
 WEB="bitcore.cc" # without "https://" and without the last "/" (only HTTPS accepted)
 BOOTSTRAP="bootstrap.tar.gz"

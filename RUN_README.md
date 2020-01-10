@@ -7,7 +7,7 @@ ufw logging on
 ufw allow 22/tcp
 ufw limit 22/tcp
 ufw allow 8555/tcp
-ufw allow 8556/tcp
+ufw allow 8054/tcp
 ufw allow 9051/tcp
 ufw default deny incoming 
 ufw default allow outgoing 
@@ -21,7 +21,7 @@ docker pull limxtec/btx-rpc-server
 
 ## Run docker container
 ```
-docker run -p 8555:8555 -p 8556:8556 -p 9051:9051 --name btx-rpc-server -e WEB="${WEB}" -e BOOTSTRAP="${BOOTSTRAP}" -v /home/bitcore:/home/bitcore:rw -d <repository>/btx-rpc-server
+docker run -p 8555:8555 -p 8054:8054 -p 9051:9051 --name btx-rpc-server -e WEB="${WEB}" -e BOOTSTRAP="${BOOTSTRAP}" -v /home/bitcore:/home/bitcore:rw -d <repository>/btx-rpc-server
 docker ps
 ```
 
@@ -43,7 +43,7 @@ docker exec -it btx-rpc-server bash
 
 ## Debbuging within a container during run (skip start.sh execution)
 ```
-docker run -p 8555:8555 -p 8556:8556 -p 9051:9051 --name btx-rpc-server -e WEB="${WEB}" -e BOOTSTRAP="${BOOTSTRAP}" -v /home/bitcore:/home/bitcore:rw --entrypoint bash <repository>/btx-rpc-server
+docker run -p 8555:8555 -p 8054:8054 -p 9051:9051 --name btx-rpc-server -e WEB="${WEB}" -e BOOTSTRAP="${BOOTSTRAP}" -v /home/bitcore:/home/bitcore:rw --entrypoint bash <repository>/btx-rpc-server
 ```
 
 ## Stop docker container

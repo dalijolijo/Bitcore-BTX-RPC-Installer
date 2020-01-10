@@ -22,10 +22,10 @@ RUN echo $RELEASE_TAR
 
 # Make ports available to the world outside this container
 # DefaultPort = 8555
-# RPCPort = 8556
+# RPCPort = 8054
 # TorPort = 9051
-# DEPRECATED: Use 'docker run -p 8555:8555 -p 8556:8556 -p 9051:9051 ...'
-#EXPOSE 8555 8556 9051
+# DEPRECATED: Use 'docker run -p 8555:8555 -p 8054:8054 -p 9051:9051 ...'
+#EXPOSE 8555 8054 9051
 
 USER root
 
