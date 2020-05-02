@@ -8,15 +8,15 @@
 # See BUILD_README.md for further steps.
 
 # Use an official Ubuntu runtime as a parent image
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-LABEL maintainer="Jon D. (dArkjON), David B. (dalijolijo)"
+LABEL maintainer="LIMXTEC developer"
 
-ARG VERSION=0.15.2.0.0
+ARG VERSION=0.90.9.1
 ENV VERSION=${VERSION}
 RUN echo $VERSION
 
-ARG RELEASE_TAR=linux.Ubuntu.16.04.LTS-static-libstdc.tar.gz
+ARG RELEASE_TAR=bitcore-x86_64-linux-gnu_no-wallet.tar.gz
 ENV RELEASE_TAR=${RELEASE_TAR}
 RUN echo $RELEASE_TAR
 
