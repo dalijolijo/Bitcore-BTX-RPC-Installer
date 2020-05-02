@@ -5,15 +5,15 @@ GIT_REPO="dalijolijo"
 GIT_PROJECT="Bitcore-BTX-RPC-Installer"
 DOCKER_REPO="dalijolijo"
 IMAGE_NAME="btx-rpc-server"
-IMAGE_TAG="0.15.2.0.0" #BTX Version 0.15.2.0.0
+IMAGE_TAG="0.90.9.1" #BTX Version 0.90.9.1
 CONFIG_PATH="/home/bitcore/.bitcore"
 CONFIG=${CONFIG_PATH}/bitcore.conf
 CONTAINER_NAME="btx-rpc-server"
 DEFAULT_PORT="8555"
 RPC_PORT="8556"
 TOR_PORT="9051"
-WEB="bitcore.cc" # without "https://" and without the last "/" (only HTTPS accepted)
-BOOTSTRAP="bootstrap.tar.gz"
+WEB="github.com/LIMXTEC/BitCore/releases/download/0.90.9.1" # without "https://" and without the last "/" (only HTTPS accepted)
+BOOTSTRAP="z_bootstrap.zip"
 
 #
 # Color definitions
